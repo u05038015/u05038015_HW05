@@ -1,0 +1,33 @@
+﻿@model u05038015_HW05.Models.Borrow
+@using u05038015_HW05.Models
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.ActionLink("View Students", "Students", "Home", htmlAttributes: new { @class = "btn btn-primary" })
+                </th>
+            </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Taken Date</th>
+                <th scope="col">Brought Date</th>
+                <th scope="col">Borrow Date</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (Borrow borrow in Model.Borrow)
+            {
+                <tr>
+                    <td>@borrow.BorrowID</td>
+                    <td>@borrow.TakenDate</td>
+                    <td>@borrow.BroughtDate</td>
+
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

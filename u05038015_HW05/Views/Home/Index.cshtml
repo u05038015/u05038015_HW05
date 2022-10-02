@@ -1,0 +1,95 @@
+﻿@model u05038015_HW05.ViewModels.BookAuthorVM
+@using u05038015_HW05.Models
+
+<h1>Books</h1>
+
+<div class="container">
+    @{
+        List<SelectListItem> TypeList = new List<SelectListItem>();
+        List<SelectListItem> authorList = new List<SelectListItem>();
+
+        TypeList.Add(new SelectListItem
+        {
+            Text = "Select a Type",
+            Value = null,
+            Selected = true
+        });
+
+        authorList.Add(new SelectListItem
+        {
+            Text = "Select a Author",
+            Value = null,
+            Selected = true
+        });
+
+    }
+    <div class="my-md-0">
+        @using (Html.BeginForm("FuzzySearch", "Home", FormMethod.Post, new { style = "width:100%; display:inline" }))
+        {
+            <input type="text" style="width:30%;max-width:none; display:inline" name="searchText" class="form-control" placeholder="Search Book Name" />
+
+        }
+        @ViewBag.SearchText
+
+        @foreach (var type in Model.TypeList)
+        {
+            TypeList.Add(new SelectListItem
+            {
+                Text = type.Name,
+                Value = type.Name
+            });
+        }
+
+
+        @foreach (var author in Model.AuthorList)
+        {
+            authorList.Add(new SelectListItem
+            {
+                Text = author.Surname,
+                Value = author.Surname
+            });
+        }
+
+        @Html.DropDownList("types", new SelectList(TypeList, "Value", "Text"), new { @class = "form-control", style = "width:15%; display:inline; margin-left:10px;" })
+        @Html.DropDownList("authors", new SelectList(authorList, "Value", "Text"), new { @class = "form-control", style = "width:15%; display:inline; margin-left:10px;" })
+
+        @using (Html.BeginForm("FuzzySearch", "Home", FormMethod.Post, new { style = "width:100%; display:inline" }))
+        {
+            <input type="submit" style="width:20%;max-width:none; display:inline" name="searchText" class=" btn btn-danger" value="Search" />
+        }
+        @Html.ActionLink("Clear", "Index", "Home", htmlAttributes: new { @class = "btn btn-danger", style = "display:inline; margin-left:10px; position:relative; bottom:3px; padding-left:50px; padding-right:50px;" })
+    </div>
+    <br />
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Author</th>
+                <th scope="col">Type</th>
+                <th scope="col">Page Count</th>
+                <th scope="col">Points</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Book book in Model.BookList)
+            {
+                <tr>
+
+                    <td>@book.BookID</td>
+                    <td>@book.Name</td>
+                    <td>@book.Author</td>
+                    <td>@book.Type</td>
+                    <td>@book.PageCount</td>
+                    <td>@book.Point</td>
+                    <td style="color:green">Available</td>
+                    <td>
+                        @Html.ActionLink("View", "DetailsOfBook", "Home", htmlAttributes: new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
